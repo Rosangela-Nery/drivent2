@@ -1,24 +1,50 @@
 import { AuthenticatedRequest } from "@/middlewares";
-import ticketService from "@/services/tickets-service";
+import hotelsService from "@/services/hotels-service";
 import { Response } from "express";
 import httpStatus from "http-status";
 
+//Listar todos os hoteis
 export async function getHotels(req: AuthenticatedRequest, res: Response) {
-  try {
-    // const ticketTypes = await ticketService.getTicketTypes();
+  const { userId } = req.body;
 
-    return res.status(httpStatus.OK).send();
+  try {
+    const hotelsTypes = await hotelsService.getListAllHotels(userId);
+
+    return res.status(httpStatus.OK).send(hotelsTypes);
   } catch (error) {
-    return res.sendStatus(httpStatus.NO_CONTENT);
+    if(error.name === "PaymentRequiredError") {
+      return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+    }
+
+    if(error.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+
+    if(error.name === "UnauthorizedError") {
+      return res.sendStatus(httpStatus.UNAUTHORIZED);
+    }
   }
 }
 
+//Listar os quartos do hotel
 export async function getHotelId(req: AuthenticatedRequest, res: Response) {
+  const { userId, hotelId } = req.body;
+
   try {
-    //   const ticketTypes = await ticketService.getTicketTypes();
+    const hotelsTypes = await hotelsService.getListHotelRooms(userId, hotelId);
   
-    return res.status(httpStatus.OK).send();
+    return res.status(httpStatus.OK).send(hotelsTypes);
   } catch (error) {
-    return res.sendStatus(httpStatus.NO_CONTENT);
+    if(error.name === "PaymentRequiredError") {
+      return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+    }
+
+    if(error.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+
+    if(error.name === "UnauthorizedError") {
+      return res.sendStatus(httpStatus.UNAUTHORIZED);
+    }
   }
 }
