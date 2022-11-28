@@ -50,7 +50,7 @@ describe("GET /hotels", () => {
       expect(response.status).toEqual(httpStatus.NOT_FOUND);
     });
 
-    it("should respond with status 402 whether the ticket has been paid!", async () => {
+    it("should respond with status 402 if ticket was booked!", async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const enrollment = await createEnrollmentWithAddress(user);
@@ -134,7 +134,7 @@ describe("GET /hotels/:hotelId", () => {
     expect(response.status).toEqual(httpStatus.NOT_FOUND);
   });
 
-  it("should respond with status 402 whether the ticket has been paid!", async () => {
+  it("should respond with status 402 if ticket was booked!", async () => {
     const user = await createUser();
     const token = await generateValidToken(user);
     const enrollment = await createEnrollmentWithAddress(user);
@@ -160,7 +160,7 @@ describe("GET /hotels/:hotelId", () => {
     expect(response.status).toEqual(httpStatus.UNAUTHORIZED);
   });
 
-  it("should respond with status 200 and with hotels data", async () => {
+  it("should respond with status 200 and with rooms data", async () => {
     const user = await createUser();
     const token = await generateValidToken(user);
     const enrollment = await createEnrollmentWithAddress(user);
