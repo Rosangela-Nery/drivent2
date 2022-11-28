@@ -4,7 +4,6 @@ import hotelsRepository from "@/repositories/hotels-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 import { Hotel, TicketStatus } from "@prisma/client";
 
-//Listar todos os hoteis
 async function getListAllHotels(userId: number) {
   const checkEnrollments = await enrollmentRepository.findWithAddressByUserId(userId);
 
@@ -19,7 +18,6 @@ async function getListAllHotels(userId: number) {
   return await hotelsRepository.findAllHotelsRepository();
 }
 
-//Listar os quartos do hotel
 async function getListHotelRooms(userId: number, hotelId: number) {
   const checkHotels = await hotelsRepository.findTheRoomsRepository(hotelId);
 
